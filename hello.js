@@ -25,7 +25,7 @@
 
     // Thanks to https://gist.github.com/rudiedirkx/fd568b08d7bffd6bd372
     var his = window.history;
-    if (his && his.pushState && his.replaceState && Event && window.dispatchEvent) {
+    if (his && his.pushState && Event && window.dispatchEvent) {
       var stateListener = function(type) {
         var orig = his[type];
         return function() {
@@ -37,10 +37,6 @@
         };
       };
       his.pushState = stateListener('pushState');
-      his.replaceState = stateListener('replaceState');
-      window.addEventListener('replaceState', function() {
-        post(window.location.href);
-      });
       window.addEventListener('pushState', function() {
         post(window.location.href);
       });
