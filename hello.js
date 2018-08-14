@@ -53,4 +53,4 @@
     img.alt = '';
     if (bodies[0]) bodies[0].appendChild(img);
   }
-})(window, '//simplewebsiteanalytics.com');
+})(window, 'https://simplewebsiteanalytics.com');
