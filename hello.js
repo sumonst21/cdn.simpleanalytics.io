@@ -6,8 +6,8 @@
     if (userAgent.search(/(bot|spider|crawl)/ig) > -1) return;
 
     var post = function(url) {
-      var data = { source: 'js' };
-      if (url) data.url = url;
+      if (!url) return;
+      var data = { source: 'js', url: url };
       if (userAgent) data.ua = userAgent;
       if (window.document.referrer) data.referrer = window.document.referrer;
       if (window.navigator.doNotTrack === '1') data.dnt = true;
