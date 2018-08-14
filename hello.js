@@ -2,15 +2,29 @@
   try {
     if (!window) return;
     var nav = window.navigator;
+    var loc = window.location;
+    var doc = window.document;
     var userAgent = window.navigator.userAgent;
+    var lastSendUrl;
     if (userAgent.search(/(bot|spider|crawl)/ig) > -1) return;
 
-    var post = function(url) {
-      if (!url) return;
+    var post = function() {
+      // Obfuscate personal data in URL by dropping the search and hash
+      var url = loc.protocol + '//' + loc.hostname + loc.pathname;
+
+      // Don't send the last URL again (this could happen when )
+      if (lastSendUrl === url) return;
+      lastSendUrl = url;
+
+      // From the search we grab the utm_source and ref and save only that
+      var refMatches = loc.search.match(/[?&](utm_source|ref)=([^?&]+)/gi);
+      var refs = refMatches ? refMatches.map(function(m) { return m.split('=')[1] }) : [];
+
       var data = { source: 'js', url: url };
       if (userAgent) data.ua = userAgent;
-      if (window.document.referrer) data.referrer = window.document.referrer;
-      if (window.navigator.doNotTrack === '1') data.dnt = true;
+      if (refs && refs[0]) data.urlReferrer = refs[0];
+      if (doc.referrer) data.referrer = doc.referrer;
+      if (nav.doNotTrack === '1') data.dnt = true;
       if (window.innerWidth) data.width = window.innerWidth;
       if (window.innerHeight) data.height = window.innerHeight;
 
@@ -38,11 +52,11 @@
       };
       his.pushState = stateListener('pushState');
       window.addEventListener('pushState', function() {
-        post(window.location.href);
+        post();
       });
     }
 
-    post(window.location.href);
+    post();
   } catch (e) {
     if (console && console.error) console.error(e);
     var bodies = document.getElementsByTagName('body');
@@ -53,4 +67,4 @@
     img.alt = '';
     if (bodies[0]) bodies[0].appendChild(img);
   }
-})(window, 'https://simplewebsiteanalytics.com');
+})(window, 'https://api.simplewebsiteanalytics.com');
