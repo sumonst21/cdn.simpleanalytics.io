@@ -4,7 +4,7 @@
     var nav = window.navigator;
     var loc = window.location;
     var doc = window.document;
-    var userAgent = window.navigator.userAgent;
+    var userAgent = nav.userAgent;
     var lastSendUrl;
     if (userAgent.search(/(bot|spider|crawl)/ig) > -1) return;
 
