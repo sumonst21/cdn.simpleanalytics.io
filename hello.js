@@ -12,7 +12,7 @@
       // Obfuscate personal data in URL by dropping the search and hash
       var url = loc.protocol + '//' + loc.hostname + loc.pathname;
 
-      // Don't send the last URL again (this could happen when )
+      // Don't send the last URL again (this could happen when pushState is used to change the URL hash or search)
       if (lastSendUrl === url) return;
       lastSendUrl = url;
 
