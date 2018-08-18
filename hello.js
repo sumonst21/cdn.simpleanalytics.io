@@ -67,4 +67,4 @@
     img.alt = '';
     if (bodies[0]) bodies[0].appendChild(img);
   }
-})(window, 'https://api.simplewebsiteanalytics.com');
+})(window, 'https://api.simpleanalytics.io');
