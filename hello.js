@@ -16,6 +16,12 @@
       if (lastSendUrl === url) return;
       lastSendUrl = url;
 
+      // Skip prerender requests
+      if ('visibilityState' in doc && doc.visibilityState === 'prerender') return;
+
+      // Don't track when Do Not Track is set to true
+      if ('doNotTrack' in nav && nav.doNotTrack === '1') return;
+  
       // From the search we grab the utm_source and ref and save only that
       var refMatches = loc.search.match(/[?&](utm_source|ref)=([^?&]+)/gi);
       var refs = refMatches ? refMatches.map(function(m) { return m.split('=')[1] }) : [];
@@ -24,7 +30,6 @@
       if (userAgent) data.ua = userAgent;
       if (refs && refs[0]) data.urlReferrer = refs[0];
       if (doc.referrer) data.referrer = doc.referrer;
-      if (nav.doNotTrack === '1') data.dnt = true;
       if (window.innerWidth) data.width = window.innerWidth;
       if (window.innerHeight) data.height = window.innerHeight;
 
