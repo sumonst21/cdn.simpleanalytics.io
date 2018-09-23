@@ -1,3 +1,7 @@
+// We use https://jscompress.com to compress our script so you can test
+// if this script is indeed the same script as the minified version we
+// published on https://cdn.simpleanalytics.io/hello.js
+
 (function(window,d){
   try {
     if (!window) return;
