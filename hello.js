@@ -10,6 +10,9 @@
     var doc = window.document;
     var userAgent = nav.userAgent;
     var lastSendUrl;
+
+    var script = document.querySelector('script[src="https://cdn.simpleanalytics.io/hello.js"]')
+    var mode = script ? script.getAttribute('data-mode') : null;
     
     // We do advanced bot detection in our API, but this line filters already most bots
     if (userAgent.search(/(bot|spider|crawl)/ig) > -1) return;
@@ -17,6 +20,9 @@
     var post = function() {
       // Obfuscate personal data in URL by dropping the search and hash
       var url = loc.protocol + '//' + loc.hostname + loc.pathname;
+
+      // Add hash to url when script is put in to hash mode
+      if (mode === 'hash') url += location.hash
 
       // Don't send the last URL again (this could happen when pushState is used to change the URL hash or search)
       if (lastSendUrl === url) return;
@@ -65,6 +71,11 @@
       window.addEventListener('pushState', function() {
         post();
       });
+    }
+    
+    // When in hash mode, we record a pageview based on the onhashchange function
+    if (mode === 'hash' && 'onhashchange' in window) {
+      window.onhashchange = post
     }
 
     post();
