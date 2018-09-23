@@ -25,7 +25,7 @@
       if ('doNotTrack' in nav && nav.doNotTrack === '1') return;
   
       // From the search we grab the utm_source and ref and save only that
-      var refMatches = loc.search.match(/[?&](utm_source|ref)=([^?&]+)/gi);
+      var refMatches = loc.search.match(/[?&](utm_source|source|ref)=([^?&]+)/gi);
       var refs = refMatches ? refMatches.map(function(m) { return m.split('=')[1] }) : [];
 
       var data = { source: 'js', url: url };
