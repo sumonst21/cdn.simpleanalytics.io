@@ -6,6 +6,8 @@
     var doc = window.document;
     var userAgent = nav.userAgent;
     var lastSendUrl;
+    
+    // We do advanced bot detection in our API, but this line filters already most bots
     if (userAgent.search(/(bot|spider|crawl)/ig) > -1) return;
 
     var post = function() {
