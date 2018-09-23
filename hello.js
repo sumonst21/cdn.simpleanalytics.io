@@ -22,7 +22,7 @@
       var url = loc.protocol + '//' + loc.hostname + loc.pathname;
 
       // Add hash to url when script is put in to hash mode
-      if (mode === 'hash') url += location.hash
+      if (mode === 'hash' && loc.hash) url += loc.hash.split('?')[0];
 
       // Don't send the last URL again (this could happen when pushState is used to change the URL hash or search)
       if (lastSendUrl === url) return;
