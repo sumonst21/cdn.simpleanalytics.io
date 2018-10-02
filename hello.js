@@ -45,7 +45,6 @@
       if (refs && refs[0]) data.urlReferrer = refs[0];
       if (doc.referrer && !isPushState) data.referrer = doc.referrer;
       if (window.innerWidth) data.width = window.innerWidth;
-      if (window.innerHeight) data.height = window.innerHeight;
 
       var request = new XMLHttpRequest();
       request.open('POST', d + '/post', true);
