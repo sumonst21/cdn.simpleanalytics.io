@@ -17,7 +17,9 @@
     // We do advanced bot detection in our API, but this line filters already most bots
     if (userAgent.search(/(bot|spider|crawl)/ig) > -1) return;
 
-    var post = function() {
+    var post = function(options) {
+      var isPushState = options && options.isPushState
+
       // Obfuscate personal data in URL by dropping the search and hash
       var url = loc.protocol + '//' + loc.hostname + loc.pathname;
 
@@ -41,7 +43,7 @@
       var data = { source: 'js', url: url };
       if (userAgent) data.ua = userAgent;
       if (refs && refs[0]) data.urlReferrer = refs[0];
-      if (doc.referrer) data.referrer = doc.referrer;
+      if (doc.referrer && !isPushState) data.referrer = doc.referrer;
       if (window.innerWidth) data.width = window.innerWidth;
       if (window.innerHeight) data.height = window.innerHeight;
 
@@ -69,7 +71,7 @@
       };
       his.pushState = stateListener('pushState');
       window.addEventListener('pushState', function() {
-        post();
+        post({ isPushState: true });
       });
     }
     
