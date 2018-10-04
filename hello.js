@@ -82,12 +82,8 @@
     post();
   } catch (e) {
     if (console && console.error) console.error(e);
-    var bodies = document.getElementsByTagName('body');
-    var img = new Image();
     var url = d + '/hello.gif';
     if (e && e.message) url = url + '?error=' + encodeURIComponent(e.message);
-    img.src = url;
-    img.alt = '';
-    if (bodies[0]) bodies[0].appendChild(img);
+    new Image().src = url;
   }
 })(window, 'https://api.simpleanalytics.io');
