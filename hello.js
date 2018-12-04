@@ -14,8 +14,13 @@
     var script = document.querySelector('script[src="https://cdn.simpleanalytics.io/hello.js"]')
     var mode = script ? script.getAttribute('data-mode') : null;
     
+    // A simple log function so the user knows why a request is not being send
+    var warn = function(message) {
+      if (console && console.warn) console.warn('Simple Analytics: ' + message);
+    }
+
     // We do advanced bot detection in our API, but this line filters already most bots
-    if (userAgent.search(/(bot|spider|crawl)/ig) > -1) return;
+    if (userAgent.search(/(bot|spider|crawl)/ig) > -1) return warn('Not sending requests because user agent is a robot');
 
     var post = function(options) {
       var isPushState = options && options.isPushState
@@ -31,10 +36,13 @@
       lastSendUrl = url;
 
       // Skip prerender requests
-      if ('visibilityState' in doc && doc.visibilityState === 'prerender') return;
+      if ('visibilityState' in doc && doc.visibilityState === 'prerender') return warn('Not sending requests when prerender');
 
       // Don't track when Do Not Track is set to true
-      if ('doNotTrack' in nav && nav.doNotTrack === '1') return;
+      if ('doNotTrack' in nav && nav.doNotTrack === '1') return warn('Not sending requests when doNotTrack is enabled');
+
+      // Don't track when Do Not Track is set to true
+      if (loc.hostname === 'localhost') return warn('Not sending requests from localhost');
   
       // From the search we grab the utm_source and ref and save only that
       var refMatches = loc.search.match(/[?&](utm_source|source|ref)=([^?&]+)/gi);
