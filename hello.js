@@ -11,7 +11,7 @@
     var userAgent = nav.userAgent;
     var lastSendUrl;
 
-    var script = document.querySelector('script[src="https://cdn.simpleanalytics.io/hello.js"]')
+    var script = doc.querySelector('script[src="https://cdn.simpleanalytics.io/hello.js"]')
     var mode = script ? script.getAttribute('data-mode') : null;
     
     // A simple log function so the user knows why a request is not being send
