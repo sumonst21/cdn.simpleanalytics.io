@@ -98,4 +98,4 @@
     if (e && e.message) url = url + '?error=' + encodeURIComponent(e.message);
     new Image().src = url;
   }
-})(window, 'api.simpleanalytics.io', '/hello');
+})(window, hostname, path);
